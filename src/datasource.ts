@@ -105,11 +105,11 @@ export class OpenSearchDatasource extends DataSourceApi<OpenSearchQuery, OpenSea
     if (this.basicAuth || this.withCredentials) {
       options.withCredentials = true;
     }
-    const tempHeaders: { Authorization?: string } = {};
+    const tempHeaders: { Authorization?: string; requestBody?: string } = {};
     if (this.basicAuth) {
       tempHeaders.Authorization = this.basicAuth;
     }
-
+    tempHeaders.requestBody = JSON.stringify(data);
     if (this.sigV4Auth && data) {
       tempHeaders['x-amz-content-sha256'] = await sha256(data);
     }
